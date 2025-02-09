@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Baskı Ürünleri</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">ENGINEERINGO</div>
+        <ul class="nav-links">
+            <li><a href="#home">Ana Sayfa</a></li>
+            <li><a href="#products">Ürünler</a></li>
+            <li><a href="#about">Hakkımızda</a></li>
+            <li><a href="#contact">İletişim</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <button class="login-btn" onclick="openLoginModal()">Giriş Yap</button>
+            <button class="signup-btn" onclick="openSignupModal()">Kayıt Ol</button>
+        </div>
+        <div class="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <h2>Giriş Yap</h2>
+            <form id="loginForm" class="auth-form">
+                <input type="email" placeholder="E-posta" required>
+                <input type="password" placeholder="Şifre" required>
+                <button type="submit">Giriş Yap</button>
+                <p class="form-footer">
+                    Hesabınız yok mu? <a href="#" onclick="switchToSignup()">Kayıt Ol</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSignupModal()">&times;</span>
+            <h2>Kayıt Ol</h2>
+            <form id="signupForm" class="auth-form">
+                <input type="text" placeholder="Ad Soyad" required>
+                <input type="email" placeholder="E-posta" required>
+                <input type="password" placeholder="Şifre" required>
+                <input type="password" placeholder="Şifre Tekrar" required>
+                <button type="submit">Kayıt Ol</button>
+                <p class="form-footer">
+                    Zaten hesabınız var mı? <a href="#" onclick="switchToLogin()">Giriş Yap</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h1>3D Baskı Dünyasına Hoş Geldiniz</h1>
+        <p>Hayalinizdeki tasarımları gerçeğe dönüştürüyoruz</p>
+        <a href="#products" class="cta-button">Ürünleri İncele</a>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products">
+        <h2>Ürünlerimiz</h2>
+        
+        <!-- Category Filter -->
+        <div class="category-filter">
+            <select id="categorySelect" onchange="filterProducts()">
+                <!-- Categories will be populated from config -->
+            </select>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid">
+            <!-- Products will be populated from config -->
+        </div>
+    </section>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content product-modal-content">
+            <span class="close" onclick="closeProductModal()">&times;</span>
+            <div id="productModalContent">
+                <!-- Product details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2>Hakkımızda</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <!-- About content will be populated from config -->
+            </div>
+        </div>
+        <div class="features-grid">
+            <!-- Features will be populated from config -->
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2>İletişim</h2>
+        <div class="contact-container">
+            <form class="contact-form">
+                <input type="text" placeholder="Adınız" required>
+                <input type="email" placeholder="E-posta Adresiniz" required>
+                <textarea placeholder="Mesajınız" required></textarea>
+                <button type="submit" class="submit-button">Mesaj Gönder</button>
+            </form>
+            <div class="contact-info">
+                <!-- Contact info will be populated from config -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p>&copy; 2024 3D Baskı Ürünleri. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
