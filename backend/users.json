@@ -6,6 +6,20 @@
       "email": "ardayama5b@gmail.com",
       "password": "$2a$12$2T4FzkDJEnfwGg3C3Pqh4OwXyAIHCyC9b/Od0PxdGPvsZ0ImrT9ou",
       "createdAt": "2025-02-09T00:12:04.473Z"
+    },
+    {
+      "id": "1739134446509",
+      "fullName": "selam dunya",
+      "email": "selamdunya@gmail.com",
+      "password": "$2a$12$GW1p7brqwp/nj7fckyoW7.YYRaT3LRbbSU23hQNNqxMEGYKMldHpG",
+      "createdAt": "2025-02-09T20:54:06.509Z"
+    },
+    {
+      "id": "1739134535385",
+      "fullName": "merhaba merhaba",
+      "email": "merhaba@gmail.com",
+      "password": "$2a$12$Ytq.9ncBzHC61JXovxeo1Ohqy8QiZoodgkh0DOyyVzH63wkOo5q.a",
+      "createdAt": "2025-02-09T20:55:35.385Z"
     }
   ]
 }

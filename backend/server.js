@@ -44,6 +44,28 @@ function generateUserId() {
     return Date.now().toString();
 }
 
+// Admin authentication middleware
+const adminAuth = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ message: 'Admin authentication required' });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+        const users = readUsers();
+        const user = users.find(u => u.id === decoded.id);
+
+        if (!user || user.email !== 'ardayama5b@gmail.com') { // Making your email the admin
+            return res.status(403).json({ message: 'Admin access required' });
+        }
+
+        next();
+    } catch (error) {
+        res.status(401).json({ message: 'Invalid or expired token' });
+    }
+};
+
 // Routes
 app.get('/', (req, res) => {
     res.send(`
@@ -233,11 +255,10 @@ app.get('/api/auth/me', async (req, res) => {
     }
 });
 
-// Admin routes
-app.get('/api/admin/users', async (req, res) => {
+// Admin routes with authentication
+app.get('/api/admin/users', adminAuth, async (req, res) => {
     try {
         const users = readUsers();
-        // Remove password field from response
         const safeUsers = users.map(({ password, ...user }) => user);
         res.json({ status: 'success', users: safeUsers });
     } catch (error) {
@@ -246,7 +267,7 @@ app.get('/api/admin/users', async (req, res) => {
     }
 });
 
-app.delete('/api/admin/users/:userId', async (req, res) => {
+app.delete('/api/admin/users/:userId', adminAuth, async (req, res) => {
     try {
         const users = readUsers();
         const updatedUsers = users.filter(user => user.id !== req.params.userId);
