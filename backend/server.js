@@ -9,7 +9,12 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-app.use(cors());  // Allow all origins for now
+app.use(cors({
+    origin: ['https://engineeringo.netlify.app', 'http://localhost:3000'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // Error handling middleware
@@ -43,28 +48,6 @@ function findUserByEmail(email) {
 function generateUserId() {
     return Date.now().toString();
 }
-
-// Admin authentication middleware
-const adminAuth = async (req, res, next) => {
-    try {
-        const token = req.headers.authorization?.split(' ')[1];
-        if (!token) {
-            return res.status(401).json({ message: 'Admin authentication required' });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-        const users = readUsers();
-        const user = users.find(u => u.id === decoded.id);
-
-        if (!user || user.email !== 'ardayama5b@gmail.com') { // Making your email the admin
-            return res.status(403).json({ message: 'Admin access required' });
-        }
-
-        next();
-    } catch (error) {
-        res.status(401).json({ message: 'Invalid or expired token' });
-    }
-};
 
 // Routes
 app.get('/', (req, res) => {
@@ -125,13 +108,6 @@ app.get('/', (req, res) => {
                 <p><code>POST /api/auth/signup</code> - Create a new user account</p>
                 <p><code>POST /api/auth/login</code> - Login to existing account</p>
                 <p><code>GET /api/auth/me</code> - Get current user info (requires token)</p>
-            </div>
-
-            <div class="endpoint">
-                <h3>👑 Admin Routes</h3>
-                <p><code>GET /api/admin/users</code> - Get all users</p>
-                <p><code>DELETE /api/admin/users/:userId</code> - Delete a user</p>
-                <p><code>PUT /api/admin/users/:userId</code> - Update user info</p>
             </div>
 
             <div class="endpoint">
@@ -252,58 +228,6 @@ app.get('/api/auth/me', async (req, res) => {
     } catch (error) {
         console.error('Kimlik doğrulama hatası:', error);
         res.status(401).json({ message: 'Geçersiz veya süresi dolmuş token' });
-    }
-});
-
-// Admin routes with authentication
-app.get('/api/admin/users', adminAuth, async (req, res) => {
-    try {
-        const users = readUsers();
-        const safeUsers = users.map(({ password, ...user }) => user);
-        res.json({ status: 'success', users: safeUsers });
-    } catch (error) {
-        console.error('Kullanıcılar listelenirken hata:', error);
-        res.status(500).json({ message: 'Sunucu hatası' });
-    }
-});
-
-app.delete('/api/admin/users/:userId', adminAuth, async (req, res) => {
-    try {
-        const users = readUsers();
-        const updatedUsers = users.filter(user => user.id !== req.params.userId);
-        writeUsers(updatedUsers);
-        res.json({ status: 'success', message: 'Kullanıcı silindi' });
-    } catch (error) {
-        console.error('Kullanıcı silinirken hata:', error);
-        res.status(500).json({ message: 'Sunucu hatası' });
-    }
-});
-
-app.put('/api/admin/users/:userId', async (req, res) => {
-    try {
-        const { fullName, email } = req.body;
-        const users = readUsers();
-        const userIndex = users.findIndex(user => user.id === req.params.userId);
-        
-        if (userIndex === -1) {
-            return res.status(404).json({ message: 'Kullanıcı bulunamadı' });
-        }
-
-        users[userIndex] = {
-            ...users[userIndex],
-            fullName,
-            email
-        };
-
-        writeUsers(users);
-        res.json({ 
-            status: 'success', 
-            message: 'Kullanıcı güncellendi',
-            user: users[userIndex]
-        });
-    } catch (error) {
-        console.error('Kullanıcı güncellenirken hata:', error);
-        res.status(500).json({ message: 'Sunucu hatası' });
     }
 });
 
