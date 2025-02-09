@@ -9,11 +9,14 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-app.use(cors({
-    origin: ['https://engineeringo.netlify.app', 'http://localhost:3000'],
-    credentials: true
-}));
+app.use(cors());  // Allow all origins for now
 app.use(express.json());
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ message: 'Something went wrong!' });
+});
 
 // File path for users data
 const usersFilePath = path.join(__dirname, 'users.json');
@@ -42,6 +45,14 @@ function generateUserId() {
 }
 
 // Routes
+app.get('/', (req, res) => {
+    res.json({ 
+        status: 'success',
+        message: 'Welcome to 3D Prints API',
+        timestamp: new Date().toISOString()
+    });
+});
+
 app.post('/api/auth/signup', async (req, res) => {
     try {
         const { fullName, email, password } = req.body;
