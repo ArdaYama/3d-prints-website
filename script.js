@@ -170,7 +170,7 @@ buyButtons.forEach(button => {
 });
 
 // API URL
-const API_URL = 'https://engineeringo-backend.onrender.com/api';
+const API_URL = 'https://threed-prints-website.onrender.com/api';
 
 // Auth state
 let currentUser = null;
