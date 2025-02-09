@@ -46,11 +46,81 @@ function generateUserId() {
 
 // Routes
 app.get('/', (req, res) => {
-    res.json({ 
-        status: 'success',
-        message: 'Welcome to 3D Prints API',
-        timestamp: new Date().toISOString()
-    });
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>3D Prints API Documentation</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    line-height: 1.6;
+                    background-color: #f0f2f5;
+                }
+                h1 { 
+                    color: #2c3e50; 
+                    text-align: center;
+                    border-bottom: 2px solid #3498db;
+                    padding-bottom: 10px;
+                }
+                h2 { color: #34495e; }
+                .endpoint {
+                    background: white;
+                    padding: 20px;
+                    border-radius: 8px;
+                    margin: 15px 0;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                code {
+                    background: #e9ecef;
+                    padding: 2px 5px;
+                    border-radius: 3px;
+                    color: #e74c3c;
+                }
+                .status {
+                    background: #2ecc71;
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    display: inline-block;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>🚀 3D Prints API Documentation</h1>
+            <div class="endpoint">
+                <span class="status">✅ API is Active</span>
+                <p>Last Updated: ${new Date().toLocaleString()}</p>
+            </div>
+            
+            <h2>📌 Available Endpoints:</h2>
+            
+            <div class="endpoint">
+                <h3>🔐 Authentication</h3>
+                <p><code>POST /api/auth/signup</code> - Create a new user account</p>
+                <p><code>POST /api/auth/login</code> - Login to existing account</p>
+                <p><code>GET /api/auth/me</code> - Get current user info (requires token)</p>
+            </div>
+
+            <div class="endpoint">
+                <h3>👑 Admin Routes</h3>
+                <p><code>GET /api/admin/users</code> - Get all users</p>
+                <p><code>DELETE /api/admin/users/:userId</code> - Delete a user</p>
+                <p><code>PUT /api/admin/users/:userId</code> - Update user info</p>
+            </div>
+
+            <div class="endpoint">
+                <h3>ℹ️ API Status</h3>
+                <p>Server Time: ${new Date().toISOString()}</p>
+                <p>Environment: ${process.env.NODE_ENV || 'development'}</p>
+                <p>Version: 1.0.1</p>
+            </div>
+        </body>
+        </html>
+    `);
 });
 
 app.post('/api/auth/signup', async (req, res) => {
